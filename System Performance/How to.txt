@@ -1,0 +1,28 @@
+Knowledge Sharing: System Performance Check Automation Script
+
+Why?
+We always need check system performance when we encounter performance issue, such as: MES slow
+We can use this script to check system performance for multiple servers in a better, quicker and more effective way!
+Where?
+Download latest version from: System Performance Script.zip
+How?
+
+Prerequisite: You need server admin right to run system performance check accordingly
+
+1.Unzip System Performance Script.zip
+
+2.List related all servers which you want to check into one TXT file, such as "WUX_MES.txt"
+
+3.Double click the script <System Performance.vbs>
+
+4.Input the server list file name, such as "WUX_MES.txt"
+
+5.If the file name is correct, the script will collect the system performance right now
+
+6.The window "Completed! Please Check E-Mail!" will popup when the script run over, and IT Global Response team will receive the report mail 
+
+7.If some server's performance highlighted in the report, we need check the related server accordingly
+
+8.The report can be used as a good evidence for troubleshooting!
+
+It's a VB script, so you may simply open and adjust according to your requirement! Enjoy!
