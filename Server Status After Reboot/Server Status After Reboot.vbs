@@ -27,7 +27,7 @@ Setlocale "en-us"
 emailContent = "<h1 style=""font: bold 16px Verdana, Arial, Helvetica, sans-serif;"">GRT - Server Status Report</h1>"_
 				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "Time: " & now & "</h3>"_ 	
 				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "** Some servers need extra attention, please help check! </h3>"_
-				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "(CPU > 85%；Memory > 85%；Upteim > 4 Hours；Service Stopped) </h3>"_				
+				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "(Uptime > 4 Hours；Service Stopped) </h3>"_				
 				& "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Server</th>"_				
 				& "<th style = ""font: 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;""><B>UPTIME</B> [Day:Hour:Min]</th>" _
@@ -215,7 +215,7 @@ End Function
 		NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 		Set Email = CreateObject("CDO.Message")
 		Email.From = "ITGlobalResponseTeam@jabil.com"    
-		Email.To = "_f7736@jabil.com"
+		Email.To = "jerry_hou@jabil.com"
 		Email.Subject = "GRT - Server Status after Reboot"
 		Email.Htmlbody =emailContent
 		With Email.Configuration.Fields
