@@ -215,7 +215,7 @@ End Function
 		NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 		Set Email = CreateObject("CDO.Message")
 		Email.From = "ITGlobalResponseTeam@jabil.com"    
-		Email.To = "jerry_hou@jabil.com"
+		Email.To = "_f7736@jabil.com"
 		Email.Subject = "GRT - Server Status after Reboot"
 		Email.Htmlbody =emailContent
 		With Email.Configuration.Fields
