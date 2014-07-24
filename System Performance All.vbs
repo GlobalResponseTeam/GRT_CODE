@@ -63,7 +63,9 @@ ws.popup "Please Wait,The Script is Running....." & vbcrlf & "This Window Will B
 Set fso = CreateObject("Scripting.FileSystemObject")
 Set Server= fso.OpenTextFile(".\servers.txt", 1 , TRUE)
 
+'EmailContent1
 EmailContent2
+'EmailContent3
 
 emailContent = emailContent & emailtail		  				
 
@@ -100,9 +102,10 @@ End Function
 ' Get Disk Usage
 ' ----------------------------------- 
 Function Check_Disk(Strcomputer) 						
+	emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"
 	Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
 	Set colItems = objWMIService.ExecQuery( "SELECT * FROM Win32_LogicalDisk",,48) 
-	For Each objItem in colItems 
+		For Each objItem in colItems 
 		Err.Clear
 		If objItem.size Then
 			strHD =round((100*((objItem.size-objItem.FreeSpace)/objItem.size))) 
@@ -277,6 +280,8 @@ Function EmailContent1
 	' -----------------------------------
 			if strping = "" then
 				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=3>" & "Still Booting.Offline or Wrong Server Name!"
+				emailContent = emailContent & "<TR>"
+				
 	' ----------------------------------- 
 	' The server can be access
 	' -----------------------------------				
