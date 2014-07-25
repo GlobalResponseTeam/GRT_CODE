@@ -8,7 +8,9 @@
 '  ----------------------------------------------------------------------------------------------------
 '  Notes:
 '  ----------------------------------------------------------------------------------------------------
-'declare the variables 
+' ----------------------------------- 
+' Declare the variables 
+' -----------------------------------
 On Error Resume Next 
 Dim fso,Server,hh,objfile
 Dim Strcomputer,connObj
@@ -19,11 +21,13 @@ Dim objwmiservice,colitems,objitem,strhd
 Dim colservices,objservice
 Dim NameSpace,emailContent,Email
 Dim ClickCancel
-'Get Client Info
+
 Set objNetwork=CreateObject("Wscript.NetWork") 
 Setlocale "en-us"
-'ClickCancel=0
-'Write email content
+ClickCancel=0
+' ----------------------------------- 
+'  Define Email Content
+' -----------------------------------
 emailtitle = "<h1 style=""font: bold 16px Verdana, Arial, Helvetica, sans-serif;"">GRT - Server Status Report</h1>"_
 				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "Time: " & now & "</h3>"_ 	
 				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "** Some servers need extra attention, please help check! </h3>"_
@@ -56,19 +60,139 @@ emaillabel_3 =  "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-ser
 emailtail = "</table><h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">IT Global Response Team</h3>"_
 			& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">Jabil - Confidential</h3>"_	
 			
-set ws = createobject("wscript.shell")
-ws.popup "Please Wait,The Script is Running....." & vbcrlf & "This Window Will Be Closed In 10 Seconds",10,"Notice",64
-
 
 Set fso = CreateObject("Scripting.FileSystemObject")
-Set Server= fso.OpenTextFile(".\servers.txt", 1 , TRUE)
+' ----------------------------------- 
+' Input Site Server List
+' -----------------------------------
+msg_serverlist = "Welcome to Use System Performance Report." & chr(10) & "Please input the server list file name which is saved at the same directory!"
+objfile = inputbox(msg_serverlist,"Input Server List File Name")
 
-'EmailContent1
-EmailContent2
-'EmailContent3
+selectResult_serverlist = ClickCancel_F(objfile)
 
-emailContent = emailContent & emailtail		  				
+' ------------------------------------------ 
+' Judge the Server List Input Box Value 
+' ------------------------------------------
+Do While selectResult_serverlist = "1"
+	
+	' --------------------------------------------------------------------------- 
+	'  Judge the file name have the suffix (.txt),if not,we add the suffix to it
+	'  UCase can convert lower-case to Capital
+	' ---------------------------------------------------------------------------	
+	
+	If InStr(UCase(objfile),"TXT")=0 Then  
+		objfile = objfile & ".TXT"
+	End If
+	
+	' ---------------------------------------------------------- 
+	'  Judge the file whether exist in current directory or not
+	' ----------------------------------------------------------	
+	If fso.FileExists(objfile) =0 Then
+		msgbox "The file isn't exist! Please input the correct file name!",48,"Warning"
+		objfile = inputbox(msg_serverlist,"Input Server List File Name")	
+		selectResult_serverlist = ClickCancel_F(objfile)
+	Else
+		selectResult_serverlist = "2"
+	End If 
+Loop
 
+If selectResult_serverlist = "2" Then
+	' ----------------------------------- 
+	' Select Report Format
+	' -----------------------------------
+	msg_Report = "We Provide 3 Kinds Of Reports As Below:" & chr(10) & chr(10) & "1.Uptime + Service" & chr(10) & "2.CPU + Memory + Sessions" & chr(10) & "3.CPU + Memory + Disk + Service" & chr(10) & chr(10) & "Please Input Your Report No.(1-3)"
+
+	objselection = inputbox(msg_Report,"Select Report Format")
+
+	selectResult_Report = ClickCancel_F(objselection)
+
+	Do While selectResult_Report = "1"
+			' ------------------------------------- 
+			'  Judge the Report Number is correct
+			' -------------------------------------
+		If objselection = "1" Then
+			selectResult_Report = "2"
+		ElseIf objselection = "2" Then
+			selectResult_Report = "2"
+		ElseIf objselection = "3" Then
+			selectResult_Report = "2"
+		Else 
+			msgbox "You Select Wrong No.Please Input Your Report No.(1-3)",48,"Warning"
+			objselection = inputbox(msg_Report,"System Performance Report")	
+			selectResult_Report = ClickCancel_F(objselection)
+		End If 
+	Loop
+End If
+
+' ------------------------------------------ 
+' Judge the Report Format Input Box Value 
+' ------------------------------------------
+If selectResult_Report = "2" Then
+	ExeuteJob_F(objselection)
+End If
+
+' ------------------------------------------ 
+' Judge the Input BOX Click Cancel Or Blank
+' ------------------------------------------
+Function ClickCancel_F(objselection)
+	' ------------------------------------- 
+	' If user click cancel,exit the script
+	' -------------------------------------
+	if objselection = False Then 
+		ClickCancel_F = "0"
+		GotoEnd
+		Exit Function
+	End If 
+	
+	' --------------------------------------------------- 
+	' If the selection is blank,define the value equal 1
+	' ---------------------------------------------------	
+	ClickCancel_F = "1"
+
+End Function
+
+' ----------------------------------- 
+' Get System Status Report
+' -----------------------------------
+Function ExeuteJob_F(objselection)
+	set ws = createobject("wscript.shell")
+	ws.popup "Please Wait,The Script is Running....." & vbcrlf & "This Window Will Be Closed In 10 Seconds",10,"Notice",64
+	Set Server= fso.OpenTextFile(objfile, 1 , TRUE)
+	'Set fso = CreateObject("Scripting.FileSystemObject")
+	'Set Server= fso.OpenTextFile(".\servers.txt", 1 , TRUE)
+	if objselection = 1 Then
+		EmailContent1
+	Elseif objselection = 2 Then
+		EmailContent2
+	Elseif objselection = 3 Then
+		EmailContent3
+	End if
+	emailContent = emailContent & emailtail	
+	Server.Close
+
+	' ----------------------------------- 
+	' Define email parameters
+	' ----------------------------------- 		
+	NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
+	Set Email = CreateObject("CDO.Message")
+	Email.From = "ITGlobalResponseTeam@jabil.com"    
+	Email.To = "Leo_Yan@jabil.com"
+	Email.Subject = "GRT - Server Status after Reboot"
+	Email.Htmlbody =emailContent
+	With Email.Configuration.Fields
+	.Item(NameSpace&"sendusing") = 2
+	.Item(NameSpace&"smtpserver") = "CORIMC04" 
+	.Item(NameSpace&"smtpserverport") = 25
+	.Item(NameSpace&"smtpauthenticate") = 1
+	.update
+	End With
+
+	' ----------------------------------- 
+	' Send the email report
+	' ----------------------------------- 		'
+	Email.Send		
+	WS.popup "Completed! Please Check E-Mail!",10,"Notice",64
+End Function
 ' ----------------------------------- 
 ' Get CPU Usage
 ' -----------------------------------
@@ -262,11 +386,14 @@ Function Check_Session(Strcomputer)
 	end if
 End Function
 
+' -----------------------------------
+' Define Report No.1
+' -----------------------------------
 Function EmailContent1
-	emailContent = emailtitle & emaillabel_1 & "<TR>"
+	emailContent = emailtitle & emaillabel_1 & "<TR>"	
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
-		
+		emailContent = emailContent & "<TR>"
 		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
@@ -294,11 +421,14 @@ Function EmailContent1
 	Loop
 End Function	
 
+' -----------------------------------
+' Define Report No.2
+' -----------------------------------
 Function EmailContent2
 	emailContent = emailtitle & emaillabel_2 & "<TR>"
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
-		
+		emailContent = emailContent & "<TR>"
 		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
@@ -325,11 +455,14 @@ Function EmailContent2
 	Loop
 End Function
 
+' -----------------------------------
+' Define Report No.3
+' -----------------------------------
 Function EmailContent3
 	emailContent = emailtitle & emaillabel_3 & "<TR>"
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
-		
+		emailContent = emailContent & "<TR>"
 		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
@@ -357,29 +490,12 @@ Function EmailContent3
 	Loop
 End Function
 
-Server.Close
+' -----------------------------------
+' Close & Exit The VBS
+' -----------------------------------
+Function GotoEnd()
+	Exit Function
+End Function
 
-' ----------------------------------- 
-' Define email parameters
-' ----------------------------------- 		
-NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
-Set Email = CreateObject("CDO.Message")
-Email.From = "ITGlobalResponseTeam@jabil.com"    
-Email.To = "Leo_Yan@jabil.com"
-Email.Subject = "GRT - Server Status after Reboot"
-Email.Htmlbody =emailContent
-With Email.Configuration.Fields
-.Item(NameSpace&"sendusing") = 2
-.Item(NameSpace&"smtpserver") = "CORIMC04" 
-.Item(NameSpace&"smtpserverport") = 25
-.Item(NameSpace&"smtpauthenticate") = 1
-.update
-End With
 
-' ----------------------------------- 
-' Send the email report
-' ----------------------------------- 		'
-Email.Send		
-
-WS.popup "Completed! Please Check E-Mail!",10,"Notice",64
 
