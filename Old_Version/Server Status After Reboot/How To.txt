@@ -1,0 +1,25 @@
+Server Status Report [ Uptime + Service Status ]
+Why
+
+We always need to check server uptime and service status after we reboot the servers every month after the windows update are deployed to the servers.
+
+We can use this script to check the server uptime after we reboot the servers.
+If the uptime is more than 4 hours, we will know the server didn't reboot successfully.
+If the service showed stopped, we can check the services manually.
+How
+
+Prerequisite: Server Admin right is required to run it accordingly
+Download the file and unzip it on your server.
+List related all servers which you want to check into one TXT file, The file name must be "servers.txt"
+Default mail box is ITSO Asia Computer Operations <_f7736@jabil.com> 
+Use notepad open the file <Server Status After Reboot.vbs> and modify the "Email.To = " if you want to change
+Remember save the script and the servers.txt file under the same folder.
+Double click the script <Server Status After Reboot.vbs> after we reboot site servers.
+* If the uptime > 4 hours,the uptime will be highlight and the server needs your specific attention.
+* If the termservice is stopped means that we can ping the server, but the server might halt and it needs your specific attention.
+* If other service is stopped, we need to check the service accordingly.
+* The window "Completed! Please Check E-Mail!" will popup when the script run over, and the relative recipients will get the report mail.
+The report can be used as a good evidence for troubleshooting!
+You may easily forward this report to other IT team, such as: Site IT & GSO DC Core, let them aware that server reboot already successful accomplished and now needs their assistance to verify all related IT services! 
+
+It's a VB script, so you may simply open and adjust according to your requirement! Enjoy!
