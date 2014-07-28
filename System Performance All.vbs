@@ -65,8 +65,8 @@ Set fso = CreateObject("Scripting.FileSystemObject")
 ' ----------------------------------- 
 ' Input Site Server List
 ' -----------------------------------
-msg_serverlist = "Welcome to Use System Performance Report." & chr(10) & "Please input the server list file name which is saved at the same directory!"
-objfile = inputbox(msg_serverlist,"Input Server List File Name")
+msg_serverlist = "GRT - System Performance Report" & chr(10) & chr(10) & "Please input the server list file name:" & chr(10) & "Example: [ servers.txt ]"
+objfile = inputbox(msg_serverlist,"GRT - Input Server List File Name")
 
 selectResult_serverlist = ClickCancel_F(objfile)
 
@@ -88,7 +88,7 @@ Do While selectResult_serverlist = "1"
 	'  Judge the file whether exist in current directory or not
 	' ----------------------------------------------------------	
 	If fso.FileExists(objfile) =0 Then
-		msgbox "The file isn't exist! Please input the correct file name!",48,"Warning"
+		msgbox "The file isn't exist! Please double check!",48,"Warning"
 		objfile = inputbox(msg_serverlist,"Input Server List File Name")	
 		selectResult_serverlist = ClickCancel_F(objfile)
 	Else
@@ -100,9 +100,9 @@ If selectResult_serverlist = "2" Then
 	' ----------------------------------- 
 	' Select Report Format
 	' -----------------------------------
-	msg_Report = "We Provide 3 Kinds Of Reports As Below:" & chr(10) & chr(10) & "1.Uptime + Service" & chr(10) & "2.CPU + Memory + Sessions" & chr(10) & "3.CPU + Memory + Disk + Service" & chr(10) & chr(10) & "Please Input Your Report No.(1-3)"
+	msg_Report = "Please select report type:" & chr(10) & chr(10) & "1. Uptime + Service Status" & chr(10) & "2. CPU + Memory + Terminal Sessions" & chr(10) & "3. CPU + Memory + Disk + Service Status" & chr(10) & chr(10) & "Please Input:"
 
-	objselection = inputbox(msg_Report,"Select Report Format")
+	objselection = inputbox(msg_Report,"GRT - Select Report Type")
 
 	selectResult_Report = ClickCancel_F(objselection)
 
