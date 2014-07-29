@@ -176,7 +176,7 @@ Function ExeuteJob_F(objselection)
 	NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 	Set Email = CreateObject("CDO.Message")
 	Email.From = "ITGlobalResponseTeam@jabil.com"    
-	Email.To = "Leo_Yan@jabil.com"
+	Email.To = "_f7736@jabil.com"
 	Email.Subject = "GRT - Server Status after Reboot"
 	Email.Htmlbody =emailContent
 	With Email.Configuration.Fields
