@@ -175,7 +175,8 @@ Function ExeuteJob_F(objselection)
 	' ----------------------------------- 		
 	NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 	Set Email = CreateObject("CDO.Message")
-	Email.From = "ITGlobalResponseTeam@jabil.com"    
+	Email.From = "ITGlobalResponseTeam@jabil.com"  
+	'Email.To = "Leo_Yan@jabil.com"	
 	Email.To = "_f7736@jabil.com"
 	Email.Subject = "GRT - Server Status after Reboot"
 	Email.Htmlbody =emailContent
@@ -394,7 +395,7 @@ Function EmailContent1
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------		
@@ -429,7 +430,7 @@ Function EmailContent2
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------	
@@ -463,7 +464,7 @@ Function EmailContent3
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query="  & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------	
