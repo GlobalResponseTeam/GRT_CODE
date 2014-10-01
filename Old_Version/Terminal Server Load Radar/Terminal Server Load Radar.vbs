@@ -244,11 +244,11 @@ Set fso = nothing
 
 
 Function Show_Warning(objname)
-	Show_Warning = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & objname
+	Show_Warning = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>"  & objname
 End Function
 
 Function Show_Normal(objname)
-	Show_Normal = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & objname
+	Show_Normal = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & objname
 	
 End Function	
 
@@ -259,7 +259,8 @@ End Function
 NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 Set Email = CreateObject("CDO.Message")
 Email.From = "ITGlobalResponseTeam@jabil.com"    
-Email.To = "_f7736@jabil.com"
+Email.To = "Leo_Yan@jabil.com"
+'Email.To = "_f7736@jabil.com"
 Email.Subject = "GRT - Terminal Server Load Radar"
 Email.Htmlbody =emailContent
 With Email.Configuration.Fields
