@@ -7,6 +7,7 @@
 '  Prereq: 		User must have administrator permission for the servers
 '  ----------------------------------------------------------------------------------------------------
 '  Notes:
+'  Add CPU, Memory, Disk info by Jerry
 '  ----------------------------------------------------------------------------------------------------
 ' ----------------------------------- 
 ' Declare the variables 
@@ -15,9 +16,9 @@ On Error Resume Next
 Dim fso,Server,hh,objfile
 Dim Strcomputer,connObj
 Dim objnetwork,objping,objstatus,strping
-Dim objproc,strcpu,objwmi
-Dim colos,objos,strram
-Dim objwmiservice,colitems,objitem,strhd
+Dim objproc,strcpu,objwmi,totalcpu,colproc ' jerry add
+Dim colos,objos,strram,totalram 'jerry add
+Dim objwmiservice,colitems,objitem,strhd, totalhd 'jerry add
 Dim colservices,objservice
 Dim NameSpace,emailContent,Email
 Dim ClickCancel
@@ -30,30 +31,26 @@ ClickCancel=0
 ' -----------------------------------
 emailtitle = "<h1 style=""font: bold 16px Verdana, Arial, Helvetica, sans-serif;"">GRT - Server Status Report</h1>"_
 				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "Time: " & now & "</h3>"_ 	
-				& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "** Some servers need extra attention, please help check! </h3>"_
 				& "</TR>"				
 
-emaillabel_1 = "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "(Uptime > 4 Hours；Service Stopped) </h3>"_
-				& "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
+emaillabel_1 = "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Server</th>"_				
 				& "<th style = ""font: 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;""><B>UPTIME</B> [Day:Hour:Min]</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Services</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Status</th>" _
 				& "</TR>"
 
-emaillabel_2 =  "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "(CPU > 85%；Memory > 85%；Session = 0) </h3>"_	
-				& "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
+emaillabel_2 =  "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Server</th>"_
-				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">CPU</th>" _
+				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">CPU(Load)</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Memory</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Sessions</th>" _
 				& "</TR>"				
-emaillabel_3 =  "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">" & "<font color=grey>" & "(CPU > 85%；Memory > 85%；Disk > 85%；Service Stopped) </h3>"_	
-				& "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
+emaillabel_3 =  "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Server</th>"_
-				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">CPU</th>" _
+				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">CPU(Load)</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Memory</th>" _
-				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Disk</th>" _
+				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Disk(Usage)</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Services</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Status</th>" _
 				& "</TR>"
@@ -175,9 +172,10 @@ Function ExeuteJob_F(objselection)
 	' ----------------------------------- 		
 	NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 	Set Email = CreateObject("CDO.Message")
-	Email.From = "ITGlobalResponseTeam@jabil.com"    
-	Email.To = "jerry_hou@jabil.com"
-	Email.Subject = "GRT - Server Status after Reboot"
+	Email.From = "ITGlobalResponseTeam@jabil.com"  
+	Email.To = "jerry_hou@jabil.com"	
+	'Email.To = "_f7736@jabil.com"
+	Email.Subject = "GRT - Server Status Report"
 	Email.Htmlbody =emailContent
 	With Email.Configuration.Fields
 	.Item(NameSpace&"sendusing") = 2
@@ -193,16 +191,19 @@ Function ExeuteJob_F(objselection)
 	Email.Send		
 	WS.popup "Completed! Please Check E-Mail!",10,"Notice",64
 End Function
+
+
 ' ----------------------------------- 
 ' Get CPU Usage
 ' -----------------------------------
 Function Check_CPU(Strcomputer)
 	Set objProc = GetObject("winmgmts:\\" & strcomputer & "\root\cimv2:win32_processor='cpu0'")  
 	strcpu = objProc.LoadPercentage
+	totalcpu = Round(objProc.CurrentClockSpeed/1024) 'jerry add
 	If strcpu >= 85 then
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & strcpu & "%"
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & totalcpu & "G (" & strcpu & "%)"
 	else
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcpu & "%"
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & totalcpu & "G (" & strcpu & "%)"
 	end if
 End Function						
 
@@ -214,10 +215,11 @@ Function Check_Memory(Strcomputer)
 	set colOS = objWMI.InstancesOf("Win32_OperatingSystem") 
 	for each objOS in colOS 
 		strram = Round(((objOS.TotalVisibleMemorySize-objOS.FreePhysicalMemory)/objOS.TotalVisibleMemorySize)*100) 
+		totalram = Round(objOS.TotalVisibleMemorySize/1024/1024) 
 		if strram >= 85 then
-			emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & strram & "%"
+			emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & totalram & "G (" & strram & "%)"
 		else 
-			emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strram & "%"
+			emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & totalram & "G (" & strram & "%)"
 		end If
 	next	
 End Function
@@ -233,10 +235,11 @@ Function Check_Disk(Strcomputer)
 		Err.Clear
 		If objItem.size Then
 			strHD =round((100*((objItem.size-objItem.FreeSpace)/objItem.size))) 
+			totalhd = round(objItem.size/1073741824) ' jerry
 			if strHD >= 90 then
-				emailContent = emailContent & "<font color=red>" & left(objItem.DeviceID,2) & strHD &"%</font>" & "<br>"
+				emailContent = emailContent & "<font color=red>" & left(objItem.DeviceID,2) & " " & totalhd & "G (" & strHD &"%)</font>" & "<br>"
 			else 
-				emailContent = emailContent & left(objItem.DeviceID,2) & strHD &"%" & "<br>"
+				emailContent = emailContent & left(objItem.DeviceID,2) & " " & totalhd & "G (" & strHD &"%)" & "<br>"
 			end if
 		Else
 		End If
@@ -394,7 +397,7 @@ Function EmailContent1
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------		
@@ -429,7 +432,7 @@ Function EmailContent2
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------	
@@ -463,7 +466,7 @@ Function EmailContent3
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query="  & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------	
@@ -496,6 +499,3 @@ End Function
 Function GotoEnd()
 	Exit Function
 End Function
-
-
-
