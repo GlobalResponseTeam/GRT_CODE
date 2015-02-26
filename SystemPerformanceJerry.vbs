@@ -53,6 +53,7 @@ emaillabel_3 =  "<table width=85% cellspacing=0 cellpadding=0 border=0>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Disk(Usage)</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Services</th>" _
 				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Status</th>" _
+				& "<th style = ""font: bold 11px Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #4F81BD;rowspan: 2; align: center;"">Sessions</th>" _
 				& "</TR>"
 emailtail = "</table><h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">IT Global Response Team</h3>"_
 			& "<h3 style=""font: bold 10px Verdana, Arial, Helvetica, sans-serif;"">Jabil - Confidential</h3>"_	
@@ -383,7 +384,7 @@ Function Check_Session(Strcomputer)
 		strconnection = objItem.ActiveSessions						
 	Next
 	If strconnection = 0 then
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & strconnection
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #F1F1F1;"">" & strconnection
 	else
 		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strconnection
 	end if
@@ -487,6 +488,7 @@ Function EmailContent3
 				emailContent = emailContent & Check_Memory(Strcomputer)
 				emailContent = emailContent & Check_Disk(Strcomputer)
 				emailContent = emailContent & Check_Srv(Strcomputer)
+				emailContent = emailContent & Check_Session(Strcomputer)
 				emailContent = emailContent & "<TR>"
 			end If
 		NEXT
