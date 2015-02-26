@@ -410,7 +410,7 @@ Function EmailContent1
 	' The server can't be access
 	' -----------------------------------
 			if strping = "" then
-				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=3>" & "Still Booting.Offline or Wrong Server Name!"
+				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=3>" & "<center>Please double check Server Name, Server or Network connections!</center>"
 				emailContent = emailContent & "<TR>"
 				
 	' ----------------------------------- 
@@ -445,7 +445,7 @@ Function EmailContent2
 	' The server can't be access
 	' -----------------------------------
 			if strping = "" then
-				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=3>" & "Still Booting.Offline or Wrong Server Name!"
+				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=3>" & "<center>Please double check Server Name, Server or Network connections!</center>"
 	' ----------------------------------- 
 	' The server can be access
 	' -----------------------------------				
@@ -479,7 +479,7 @@ Function EmailContent3
 	' The server can't be access
 	' -----------------------------------
 			if strping = "" then
-				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=5>" & "Still Booting.Offline or Wrong Server Name!"
+				emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=6>" & "<center>Please double check Server Name, Server or Network connections!</center>"
 	' ----------------------------------- 
 	' The server can be access
 	' -----------------------------------				
