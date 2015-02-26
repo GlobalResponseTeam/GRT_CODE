@@ -384,7 +384,7 @@ Function Check_Session(Strcomputer)
 		strconnection = objItem.ActiveSessions						
 	Next
 	If strconnection = 0 then
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #F1F1F1;"">" & strconnection
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #F1F1F1;"">N/A"
 	else
 		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strconnection
 	end if
