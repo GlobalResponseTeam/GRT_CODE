@@ -128,9 +128,9 @@ Do While Serverlist.AtEndOfLine <> True
 							Set colItems = objWMIService.ExecQuery( _
 										"SELECT * FROM Win32_PerfFormattedData_TermService_TerminalServices",,48)
 ' -----------------------------------
-' 		Windows 2008 OS
+' 	Windows 2008/Windows 2012 OS
 ' -----------------------------------										
-						elseif InStr(objos,"2008")<>0 Then
+							elseif (InStr(objos,"2008")<>0 or InStr(objos,"2012")<>0) Then
 							Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
 							Set colItems = objWMIService.ExecQuery( _
 										"SELECT * FROM Win32_PerfFormattedData_LocalSessionManager_TerminalServices",,48)
@@ -244,11 +244,11 @@ Set fso = nothing
 
 
 Function Show_Warning(objname)
-	Show_Warning = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & objname
+	Show_Warning = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>"  & objname
 End Function
 
 Function Show_Normal(objname)
-	Show_Normal = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & objname
+	Show_Normal = "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & objname
 	
 End Function	
 
@@ -259,7 +259,8 @@ End Function
 NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 Set Email = CreateObject("CDO.Message")
 Email.From = "ITGlobalResponseTeam@jabil.com"    
-Email.To = "_f7736@jabil.com"
+Email.To = "Leo_Yan@jabil.com"
+'Email.To = "_f7736@jabil.com"
 Email.Subject = "GRT - Terminal Server Load Radar"
 Email.Htmlbody =emailContent
 With Email.Configuration.Fields

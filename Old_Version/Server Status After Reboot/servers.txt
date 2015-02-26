@@ -2,3 +2,4 @@ wuxsqln10a
 wuxsqln10b
 wuxtrm01
 wuxtrm02
+wuxtrm32

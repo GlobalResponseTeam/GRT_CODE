@@ -110,8 +110,8 @@ emailContent = "<h1 style=""font: bold 16px Verdana, Arial, Helvetica, sans-seri
 ' -----------------------------------
 				if strping = "" then 
 					emailContent = emailContent & "<TR>"
-					emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
-					emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=5>" & "Still Booting.Offline or Wrong Server Name!"
+					emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
+					emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"" colspan=5>" & "Still Booting.Off-line or Wrong Server Name!"
 ' ----------------------------------- 
 ' The server can be access
 ' -----------------------------------		
@@ -123,11 +123,11 @@ emailContent = "<h1 style=""font: bold 16px Verdana, Arial, Helvetica, sans-seri
 					strcpu = objProc.LoadPercentage
 					If strcpu >= 85 then
 						emailContent = emailContent & "<TR>"
-						emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+						emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 						emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px; background: #FFF2CC;"">" & "<font color=red>" & strcpu & "%"
 					else
 						emailContent = emailContent & "<TR>"
-						emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+						emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 						emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcpu & "%"
 					end if
 ' ----------------------------------- 
@@ -236,6 +236,7 @@ End Function
 		NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 		Set Email = CreateObject("CDO.Message")
 		Email.From = "ITGlobalResponseTeam@jabil.com"    
+		'Email.To = "Leo_Yan@jabil.com"
 		Email.To = "_f7736@jabil.com"
 		Email.Subject = "GRT - System Performance Report"
 		Email.Htmlbody =emailContent

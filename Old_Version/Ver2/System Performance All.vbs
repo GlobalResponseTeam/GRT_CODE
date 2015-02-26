@@ -368,9 +368,9 @@ Function Check_Session(Strcomputer)
 		Set colItems = objWMIService.ExecQuery( _
 					"SELECT * FROM Win32_PerfFormattedData_TermService_TerminalServices",,48)
 ' -----------------------------------
-' 		Windows 2008 OS
+' 	Windows 2008/Windows 2012 OS
 ' -----------------------------------										
-	elseif InStr(objos,"2008")<>0 Then
+	elseif (InStr(objos,"2008")<>0 or InStr(objos,"2012")<>0) Then
 		Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
 		Set colItems = objWMIService.ExecQuery( _
 					"SELECT * FROM Win32_PerfFormattedData_LocalSessionManager_TerminalServices",,48)

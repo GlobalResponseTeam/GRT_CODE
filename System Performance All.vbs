@@ -175,8 +175,14 @@ Function ExeuteJob_F(objselection)
 	' ----------------------------------- 		
 	NameSpace = "http://schemas.microsoft.com/cdo/configuration/"
 	Set Email = CreateObject("CDO.Message")
+<<<<<<< HEAD
 	Email.From = "ITGlobalResponseTeam@jabil.com"    
 	Email.To = "jerry_hou@jabil.com"
+=======
+	Email.From = "ITGlobalResponseTeam@jabil.com"  
+	'Email.To = "Leo_Yan@jabil.com"	
+	Email.To = "_f7736@jabil.com"
+>>>>>>> 3d93ee7234397eb0ed14c1cf628696d96ff6d764
 	Email.Subject = "GRT - Server Status after Reboot"
 	Email.Htmlbody =emailContent
 	With Email.Configuration.Fields
@@ -368,9 +374,9 @@ Function Check_Session(Strcomputer)
 		Set colItems = objWMIService.ExecQuery( _
 					"SELECT * FROM Win32_PerfFormattedData_TermService_TerminalServices",,48)
 ' -----------------------------------
-' 		Windows 2008 OS
+' 	Windows 2008/Windows 2012 OS
 ' -----------------------------------										
-	elseif InStr(objos,"2008")<>0 Then
+	elseif (InStr(objos,"2008")<>0 or InStr(objos,"2012")<>0) Then
 		Set objWMIService = GetObject("winmgmts:\\" & strComputer & "\root\CIMV2") 
 		Set colItems = objWMIService.ExecQuery( _
 					"SELECT * FROM Win32_PerfFormattedData_LocalSessionManager_TerminalServices",,48)
@@ -394,7 +400,7 @@ Function EmailContent1
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------		
@@ -429,7 +435,7 @@ Function EmailContent2
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query=" & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------	
@@ -463,7 +469,7 @@ Function EmailContent3
 	Do While Server.AtEndOfLine <> True 
 		strcomputer= UCase(Server.ReadLine)
 		emailContent = emailContent & "<TR>"
-		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">" & strcomputer
+		emailContent = emailContent & "<td style = ""border: 1px solid #C1DAD7; font-size:11px; padding: 6px 6px 6px 12px;"">"  & "<a href=""http://alfrdcniosmst01.corp.jabil.org/ninja_upgrade/index.php/search/lookup?query="  & strcomputer & """>" & strcomputer
 	' ----------------------------------- 
 	' Confirm Server Is Available
 	' -----------------------------------	
